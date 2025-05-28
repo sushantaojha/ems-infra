@@ -1,0 +1,41 @@
+services:
+  backend:
+    build: emp_backend
+    container_name: emp_backend
+    restart: always
+    ports:
+      - 8001:8001
+    environment:
+      MYSQL_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:10.6.4-focal
+    container_name: emp_mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=emp
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  frontend:
+    build: emp_frontend
+    container_name: emp_frontend
+    restart: always
+    ports:
+      - 4200:80
+    depends_on:
+      - backend
+volumes:
+  mysql_data:
+
+
