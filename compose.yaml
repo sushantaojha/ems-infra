@@ -35,8 +35,6 @@ services:
     restart: always
     ports:
       - 4200:80
-    depends_on:
-      - backend
 volumes:
   mysql_data:
 
