@@ -1,6 +1,7 @@
 services:
   backend:
-    build: emp_backend
+    build: 
+      context: ../emp_backend
     container_name: emp_backend
     restart: always
     ports:
@@ -28,7 +29,8 @@ services:
       timeout: 5s
       retries: 5
   frontend:
-    build: emp_frontend
+    build: 
+      context: ../emp_frontend
     container_name: emp_frontend
     restart: always
     ports:
